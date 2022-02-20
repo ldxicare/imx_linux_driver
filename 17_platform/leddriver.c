@@ -32,7 +32,7 @@ Copyright © ALIENTEK Co., Ltd. 1998-2029. All rights reserved.
 ***************************************************************/
 
 #define LEDDEV_CNT		1			/* 设备号长度 	*/
-#define LEDDEV_NAME		"platled"	/* 设备名字 	*/
+#define LEDDEV_NAME		"lai-platled"	/* 设备名字 	*/
 #define LEDOFF 			0
 #define LEDON 			1
 
@@ -227,7 +227,7 @@ static int led_remove(struct platform_device *dev)
 /* platform驱动结构体 */
 static struct platform_driver led_driver = {
 	.driver		= {
-		.name	= "imx6ul-led",			/* 驱动名字，用于和设备匹配 */
+		.name	= "lai-imx6ul-led",			/* 驱动名字，用于和设备匹配 */
 	},
 	.probe		= led_probe,
 	.remove		= led_remove,

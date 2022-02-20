@@ -26,17 +26,17 @@ Copyright © ALIENTEK Co., Ltd. 1998-2029. All rights reserved.
 论坛 	   	: www.openedv.com
 日志	   	: 初版V1.0 2019/8/20 左忠凯创建
 ***************************************************************/
-#define MISCBEEP_NAME		"miscbeep"	/* 名字 	*/
+#define MISCBEEP_NAME		"miscbeep-lai"	/* 名字 	*/
 #define MISCBEEP_MINOR		144			/* 子设备号 */
 #define BEEPOFF 			0			/* 关蜂鸣器 */
 #define BEEPON 				1			/* 开蜂鸣器 */
 
 /* miscbeep设备结构体 */
 struct miscbeep_dev{
-	dev_t devid;			/* 设备号 	 */
-	struct cdev cdev;		/* cdev 	*/
-	struct class *class;	/* 类 		*/
-	struct device *device;	/* 设备 	 */
+//	dev_t devid;			/* 设备号 	 */
+//	struct cdev cdev;		/* cdev 	*/
+//	struct class *class;	/* 类 		*/
+//	struct device *device;	/* 设备 	 */
 	struct device_node	*nd; /* 设备节点 */
 	int beep_gpio;			/* beep所使用的GPIO编号		*/
 };
@@ -151,7 +151,7 @@ static int miscbeep_probe(struct platform_device *dev)
  */
 static int miscbeep_remove(struct platform_device *dev)
 {
-	/* 注销设备的时候关闭LED灯 */
+	/* 注销设备的时候关闭蜂鸣器 */
 	gpio_set_value(miscbeep.beep_gpio, 1);
 
 	/* 注销misc设备 */
@@ -161,41 +161,43 @@ static int miscbeep_remove(struct platform_device *dev)
 
  /* 匹配列表 */
  static const struct of_device_id beep_of_match[] = {
-     { .compatible = "atkalpha-beep" },
+     { .compatible = "lai-beep" },
      { /* Sentinel */ }
  };
  
  /* platform驱动结构体 */
 static struct platform_driver beep_driver = {
      .driver     = {
-         .name   = "imx6ul-beep",         /* 驱动名字，用于和设备匹配 */
+         .name   = "beep",         /* 驱动名字，用于和设备匹配 */
          .of_match_table = beep_of_match, /* 设备树匹配表          */
      },
      .probe      = miscbeep_probe,
      .remove     = miscbeep_remove,
 };
 
-/*
- * @description	: 驱动出口函数
- * @param 		: 无
- * @return 		: 无
- */
-static int __init miscbeep_init(void)
-{
-	return platform_driver_register(&beep_driver);
-}
+///*
+// * @description	: 驱动出口函数
+// * @param 		: 无
+// * @return 		: 无
+// */
+//static int __init miscbeep_init(void)
+//{
+//	return platform_driver_register(&beep_driver);
+//}
+//
+///*
+// * @description	: 驱动出口函数
+// * @param 		: 无
+// * @return 		: 无
+// */
+//static void __exit miscbeep_exit(void)
+//{
+//	platform_driver_unregister(&beep_driver);
+//}
+//
+//module_init(miscbeep_init);
+//module_exit(miscbeep_exit);
+module_platform_driver(beep_driver);
 
-/*
- * @description	: 驱动出口函数
- * @param 		: 无
- * @return 		: 无
- */
-static void __exit miscbeep_exit(void)
-{
-	platform_driver_unregister(&beep_driver);
-}
-
-module_init(miscbeep_init);
-module_exit(miscbeep_exit);
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("zuozhongkai");
+MODULE_AUTHOR("laidaixi");

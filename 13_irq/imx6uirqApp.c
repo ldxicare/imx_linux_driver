@@ -44,6 +44,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}else{
 		printf("%s 's fd = %X \r\n",filename,fd);
+		select
 	}
 
 	while (1) {

@@ -86,7 +86,7 @@ static struct resource led_resources[] = {
  * platform设备结构体 
  */
 static struct platform_device leddevice = {
-	.name = "imx6ul-led",
+	.name = "lai-imx6ul-led",
 	.id = -1,
 	.dev = {
 		.release = &led_release,

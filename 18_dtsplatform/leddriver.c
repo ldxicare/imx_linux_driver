@@ -45,6 +45,7 @@ struct leddev_dev{
 	int major;					/* 主设备号	*/	
 	struct device_node *node;	/* LED设备节点 */
 	int led0;					/* LED灯GPIO标号 */
+	const char *dev_name; 		/*驱动名称*/
 };
 
 struct leddev_dev leddev; 		/* led设备 */
@@ -120,34 +121,43 @@ static struct file_operations led_fops = {
  */
 static int led_probe(struct platform_device *dev)
 {	
-	printk("led driver and device was matched!\r\n");
 	/* 1、设置设备号 */
+	leddev.node = of_find_node_by_path("/gpioled");
+
+	if(of_property_read_string(leddev.node,"driver-name",&leddev.dev_name)){
+		leddev.dev_name = LEDDEV_NAME;			
+	}
+
+	printk("%s driver and device was matched!\r\n",leddev.dev_name);
+	printk("platform_device 's name is %s\r\n",dev->name);
+
 	if (leddev.major) {
 		leddev.devid = MKDEV(leddev.major, 0);
-		register_chrdev_region(leddev.devid, LEDDEV_CNT, LEDDEV_NAME);
+		register_chrdev_region(leddev.devid, LEDDEV_CNT, leddev.dev_name);
 	} else {
-		alloc_chrdev_region(&leddev.devid, 0, LEDDEV_CNT, LEDDEV_NAME);
+		alloc_chrdev_region(&leddev.devid, 0, LEDDEV_CNT, leddev.dev_name);
 		leddev.major = MAJOR(leddev.devid);
 	}
+
+	
 
 	/* 2、注册设备      */
 	cdev_init(&leddev.cdev, &led_fops);
 	cdev_add(&leddev.cdev, leddev.devid, LEDDEV_CNT);
 
 	/* 3、创建类      */
-	leddev.class = class_create(THIS_MODULE, LEDDEV_NAME);
+	leddev.class = class_create(THIS_MODULE, leddev.dev_name);
 	if (IS_ERR(leddev.class)) {
 		return PTR_ERR(leddev.class);
 	}
 
 	/* 4、创建设备 */
-	leddev.device = device_create(leddev.class, NULL, leddev.devid, NULL, LEDDEV_NAME);
+	leddev.device = device_create(leddev.class, NULL, leddev.devid, NULL, leddev.dev_name);
 	if (IS_ERR(leddev.device)) {
 		return PTR_ERR(leddev.device);
 	}
 
 	/* 5、初始化IO */	
-	leddev.node = of_find_node_by_path("/gpioled");
 	if (leddev.node == NULL){
 		printk("gpioled node nost find!\r\n");
 		return -EINVAL;
@@ -182,14 +192,14 @@ static int led_remove(struct platform_device *dev)
 
 /* 匹配列表 */
 static const struct of_device_id led_of_match[] = {
-	{ .compatible = "atkalpha-gpioled" },
+	{ .compatible = "lai-gpioled" },
 	{ /* Sentinel */ }
 };
 
 /* platform驱动结构体 */
 static struct platform_driver led_driver = {
 	.driver		= {
-		.name	= "imx6ul-led",			/* 驱动名字，用于和设备匹配 */
+		.name	= "gpioled-laidaixi",			/* 驱动名字，用于和设备匹配 */
 		.of_match_table	= led_of_match, /* 设备树匹配表 		 */
 	},
 	.probe		= led_probe,
@@ -219,7 +229,7 @@ static void __exit leddriver_exit(void)
 module_init(leddriver_init);
 module_exit(leddriver_exit);
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("zuozhongkai");
+MODULE_AUTHOR("laidaixi");
 
 
 
