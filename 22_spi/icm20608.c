@@ -344,13 +344,13 @@ static int icm20608_remove(struct spi_device *spi)
 
 /* 传统匹配方式ID列表 */
 static const struct spi_device_id icm20608_id[] = {
-	{"alientek,icm20608", 0},  
+	{"lai,icm20608", 0},  
 	{}
 };
 
 /* 设备树匹配列表 */
 static const struct of_device_id icm20608_of_match[] = {
-	{ .compatible = "alientek,icm20608" },
+	{ .compatible = "lai,icm20608" },
 	{ /* Sentinel */ }
 };
 
@@ -389,7 +389,7 @@ static void __exit icm20608_exit(void)
 module_init(icm20608_init);
 module_exit(icm20608_exit);
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("zuozhongkai");
+MODULE_AUTHOR("laidaixi");
 
 
 

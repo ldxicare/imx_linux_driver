@@ -27,7 +27,7 @@ Copyright © ALIENTEK Co., Ltd. 1998-2029. All rights reserved.
 日志	   	: 初版V1.0 2019/8/20 左忠凯创建
 ***************************************************************/
 #define MISCBEEP_NAME		"miscbeep-lai"	/* 名字 	*/
-#define MISCBEEP_MINOR		144			/* 子设备号 */
+#define MISCBEEP_MINOR		 MISC_DYNAMIC_MINOR		/* 子设备号 */
 #define BEEPOFF 			0			/* 关蜂鸣器 */
 #define BEEPON 				1			/* 开蜂鸣器 */
 

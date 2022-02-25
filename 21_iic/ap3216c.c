@@ -238,6 +238,8 @@ static const struct file_operations ap3216c_ops = {
   */
 static int ap3216c_probe(struct i2c_client *client, const struct i2c_device_id *id)
 {
+	printk("%s driver match!\r\n",AP3216C_NAME);
+
 	/* 1、构建设备号 */
 	if (ap3216cdev.major) {
 		ap3216cdev.devid = MKDEV(ap3216cdev.major, 0);
@@ -287,13 +289,13 @@ static int ap3216c_remove(struct i2c_client *client)
 
 /* 传统匹配方式ID列表 */
 static const struct i2c_device_id ap3216c_id[] = {
-	{"alientek,ap3216c", 0},  
+	{"lai,ap3216c", 0},  
 	{}
 };
 
 /* 设备树匹配列表 */
 static const struct of_device_id ap3216c_of_match[] = {
-	{ .compatible = "alientek,ap3216c" },
+	{ .compatible = "lai,ap3216c" },
 	{ /* Sentinel */ }
 };
 
@@ -337,7 +339,7 @@ static void __exit ap3216c_exit(void)
 module_init(ap3216c_init);
 module_exit(ap3216c_exit);
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("zuozhongkai");
+MODULE_AUTHOR("laidaixi");
 
 
 

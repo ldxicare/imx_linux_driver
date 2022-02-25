@@ -30,7 +30,7 @@ Copyright © ALIENTEK Co., Ltd. 1998-2029. All rights reserved.
 日志	   	: 初版V1.0 2019/8/21 左忠凯创建
 ***************************************************************/
 #define KEYINPUT_CNT		1			/* 设备号个数 	*/
-#define KEYINPUT_NAME		"keyinput"	/* 名字 		*/
+#define KEYINPUT_NAME		"keyinput-lai"	/* 名字 		*/
 #define KEY0VALUE			0X01		/* KEY0按键值 	*/
 #define INVAKEY				0XFF		/* 无效的按键值 */
 #define KEY_NUM				1			/* 按键数量 	*/
@@ -46,10 +46,10 @@ struct irq_keydesc {
 
 /* keyinput设备结构体 */
 struct keyinput_dev{
-	dev_t devid;			/* 设备号 	 */
-	struct cdev cdev;		/* cdev 	*/
-	struct class *class;	/* 类 		*/
-	struct device *device;	/* 设备 	 */
+//	dev_t devid;			/* 设备号 	 */
+//	struct cdev cdev;		/* cdev 	*/
+//	struct class *class;	/* 类 		*/
+//	struct device *device;	/* 设备 	 */
 	struct device_node	*nd; /* 设备节点 */
 	struct timer_list timer;/* 定义一个定时器*/
 	struct irq_keydesc irqkeydesc[KEY_NUM];	/* 按键描述数组 */
@@ -215,4 +215,4 @@ static void __exit keyinput_exit(void)
 module_init(keyinput_init);
 module_exit(keyinput_exit);
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("zuozhongkai");
+MODULE_AUTHOR("laidaixi");
